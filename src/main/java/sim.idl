@@ -1,0 +1,47 @@
+//
+// ============================================================================================ 
+// 
+// === TUTORIAL CORBA 
+//
+// Os arquivos sao gerados de forma automatica, 
+// desde que o comando abaixo seja executado no terminal:
+//
+// cd {workspace}/{path_do_projeto}/src/main/java
+// idlj -fall sim.idl
+//
+// Abra o Eclipse e no menu Project >> Clean, marque seu projeto e clique em OK
+//
+// ============================================================================================
+//
+
+module sim {
+
+	interface SimCorbaClient {
+		void update(in string message);
+	};
+	
+	exception AnonymID {};
+	exception UserExists {};
+	
+	interface SimCorbaServer {
+	
+		string login(in string nickname, in SimCorbaClient client) raises (UserExists);
+		void logout(in string id) raises (AnonymID);
+		
+		void write(in string from, in string text) raises (AnonymID);
+		void writeTo(in string from, in string to, in string message) raises (AnonymID);
+				
+		void startRadar(in string nickname, in string location);
+		void stopRadar(in string nickname);
+		
+		string changeLocation(in string nickname, in string location);
+		
+		string listNearlyClients(in string nickname);
+		
+		string addRoom(in string roomName);
+		string getRoom(in string clientName);
+		string listRooms();
+		
+		string changeClientRoom(in string clientName, in string roomName);
+	};
+};

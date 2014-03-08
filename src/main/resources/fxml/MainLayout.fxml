@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
+<?import layouttests.migfxml.sample1.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
+
+<MigPane id="rootPane"
+	prefHeight="690.0" 
+	prefWidth="890.0"
+	fx:controller="br.com.gtmf.window.MainLayoutWindow" 
+	styleClass="main-panel"
+	layout="fillx, gap unrel rel" 
+	cols="" 
+	rows="[fill][fill][fill][fill]" 
+	xmlns:fx="http://javafx.com/fxml">
+
+
+	<MigPane id="topPane" 
+		styleClass="top-panel"
+		layout="fillx, insets 0" 
+		cols="" 
+		rows="[fill,grow][fill,grow]" 
+		MigPane.cc="dock north, grow"
+	>
+		<MenuBar MigPane.cc="spanx, growx, wrap" styleClass="menu-bar" >
+			<menus>
+				<Menu mnemonicParsing="false" text="Arquivo" >
+					<items>
+						<MenuItem mnemonicParsing="false"
+							text="Adivinhar" fx:id="mniRiddle" >
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="F" control="ANY"
+									meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" onAction="#handleExit"
+							text="Sair">
+							<accelerator>
+								<KeyCodeCombination alt="ANY" code="F4"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Ajuda">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleAbout"
+							text="Sobre" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+		
+		<MigPane id="toolbarPane" 
+			styleClass="top-panel"
+			layout="insets 10 10 10 10" 
+			cols="" 
+			rows="[fill][fill]" 
+			MigPane.cc="spanx, growx"
+		>
+
+			<Label text="[Cliente] SIM - Sistema de Interação Móvel" styleClass="title-message" MigPane.cc="growx, gaptop 10, gapbottom 10, wrap" />
+			
+			<Label text="Nome" styleClass="toolbar-message" MigPane.cc="align center, spanx 3, split 3" /> 
+			<TextField fx:id="tfUsername" text="Username" onAction="#turnOn" MigPane.cc="growx, height 25:25:35, gapleft 6, gapright 20" />
+			
+	    	<ToggleButton fx:id="tbStatus" text="Conectar" onAction="#tbStatusItemChange" MigPane.cc="width 120, height 25:25:35, align center, gapleft 20, gapright 20, wrap" />
+	    		    	
+	    	<ToggleButton fx:id="tbRadar" text="Radar" onAction="#tbRadarItemChange" MigPane.cc="width 120, height 25:25:35, align center, gaptop 20, gapbottom 20, gapleft 20, gapright 20" />
+			
+	    </MigPane>
+	</MigPane>
+
+	<MigPane id="footerPane" 
+		styleClass="top-panel"
+		layout="fillx, insets 0"
+		cols="" 
+		rows="" 
+		MigPane.cc="dock south, grow"
+	>
+		<Label fx:id="lbStatus" text="Desconectado" styleClass="footer-message" MigPane.cc="growx, wrap, gaptop 10, gapbottom 10" />
+	    
+	</MigPane>
+
+	<MigPane id="body1Pane" 
+		styleClass="main-panel"
+		layout="fill" 
+		cols="" 
+		rows="[fill][fill][][]" 
+		MigPane.cc="width 450:500:650, dock center, growy"
+	>
+	    
+		<TextArea fx:id="taHistory" editable="false" wrapText="true"
+			styleClass="body2-message" MigPane.cc="growx, wrap, height 250:400:450" />
+			
+		<TextField fx:id="tfSendChat" onAction="#sendChat" MigPane.cc="growx, wrap, height 25:25:35" />
+		
+		<Button fx:id="btSendChat" text="Enviar" onAction="#sendChat" MigPane.cc="width 100, height 30:30:50, align right, gaptop 10, gapbottom 10" />
+	    
+	</MigPane>
+
+	<MigPane id="body2Pane" 
+		styleClass="main-panel"
+		layout="fill" 
+		cols="[][]" 
+		rows="[fill][fill][][][][][][][][][][][][][]" 
+		MigPane.cc="width 250:300:350, dock east, growy"
+	>
+	
+		
+    	<Label fx:id="lbLatitude" text="Latitude" styleClass="toolbar-message" MigPane.cc="growx, wrap" /> 
+		<TextField fx:id="tfLatitude" text="-3.755747" MigPane.cc="growx, width 250:300:350, gapbottom 10, wrap" />
+		
+    	<Label fx:id="lbLongitude" text="Longitude" styleClass="toolbar-message" MigPane.cc="growx, wrap" /> 
+		<TextField fx:id="tfLongitude" text="-38.490859" MigPane.cc="growx, width 250:300:350, gapbottom 10, wrap" />
+	    
+	    <Button fx:id="btChangeLocation" text="Enviar" onAction="#changeLocation" MigPane.cc="width 100, height 30:30:50, align right, gapbottom 10, wrap" />
+	    
+		<Label fx:id="lbRooms" text="Salas" MigPane.cc="growx, wrap" />		
+	    <ComboBox fx:id="cbRooms" MigPane.cc="growx, width 250:300:350, gapbottom 10, wrap" />
+	    
+		<Label fx:id="lbTitleUsers" text="Usuários ON" MigPane.cc="growx, wrap" />
+		
+	    <ListView fx:id="lvUsersOn" MigPane.cc="growx, wrap, height 100:100:150" />
+	    
+	    <CheckBox fx:id="chkMsgAll" text="Enviar para Todos" MigPane.cc="growx, gapbottom 10, wrap" />
+			
+	</MigPane>
+	
+</MigPane>

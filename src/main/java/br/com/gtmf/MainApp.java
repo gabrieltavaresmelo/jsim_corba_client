@@ -1,36 +1,88 @@
 package br.com.gtmf;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+import org.tbee.javafx.scene.layout.fxml.MigPane;
+
+import br.com.gtmf.utils.Constants;
+import br.com.gtmf.window.MainLayoutWindow;
+
+/**
+ * 
+ * @author Gabriel Tavares
+ *
+ */
 public class MainApp extends Application {
 
-    private static final Logger log = LoggerFactory.getLogger(MainApp.class);
+	private MainLayoutWindow mainLayoutWindow;
+	private static String[] args;
+	
 
     public static void main(String[] args) throws Exception {
+    	MainApp.args = args;
         launch(args);
     }
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {    	
+    	// Configura o titulo da janela
+    	stage.setTitle("[Cliente] SIM - Sistema de Interação Móvel");
+		
+		// Configura o evento ao clicar no botao fechar da janela
+    	stage.setOnCloseRequest(new EventHandler<WindowEvent>() {			
+			@Override
+			public void handle(WindowEvent event) {
+				if(event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST){
+					closeApp();
+				}	
+			}
+		});
+		
+		// Configura o icone da aplicacao
+    	try {
+//			stage.getIcons().add(new Image(getClass().getResourceAsStream(Constants.LOGO)));
+		} catch (Exception e) {
+			System.err.println("LOGO nao encontrada! " + e.getMessage());
+		}
+		
+//        log.info("Starting Hello JavaFX and Maven demonstration application");
+//        log.debug("Carregando o FXML: {}", fxmlRootLayout);        
+        
+    	// Constroi os layouts
+        showMainLayout(stage);
 
-        log.info("Starting Hello JavaFX and Maven demonstration application");
-
-        String fxmlFile = "/fxml/hello.fxml";
-        log.debug("Loading FXML for main view from: {}", fxmlFile);
-        FXMLLoader loader = new FXMLLoader();
-        Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
-
-        log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 400, 200);
-        scene.getStylesheets().add("/styles/styles.css");
-
-        stage.setTitle("Hello JavaFX and Maven");
-        stage.setScene(scene);
+        // Exibe a tela
         stage.show();
     }
+
+    /**
+     * Instancia o layout a partir do arquivo FXML
+     * 
+     * @param stage
+     * @throws IOException
+     */
+	private void showMainLayout(Stage stage) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		MigPane migPane = (MigPane) loader.load(getClass().getResourceAsStream(Constants.fxmlMainLayout));
+
+        Scene scene = new Scene(migPane);
+        scene.getStylesheets().add("/styles/styles.css");
+        stage.setScene(scene);
+        
+        // Dar ao Controller acesso a MainApp
+        mainLayoutWindow = loader.getController();
+        mainLayoutWindow.setParams(stage, migPane);
+        mainLayoutWindow.setArgs(args);
+	}
+	
+	public void closeApp() {
+		mainLayoutWindow.finish();
+	}
 }

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- 
+    	Criar Projeto:
+    		mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype -DarchetypeVersion=2.0.1
+    	
+    	Classpath:
+    		mvn com.zenjava:javafx-maven-plugin:2.0:fix-classpath
+    		
+    	Compilar:
+    		JAR: mvn clean jfx:jar
+    		Native: mvn clean jfx:native
+    		Web: mvn clean jfx:web
+     -->
+     
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.com.gtmf</groupId>
@@ -8,7 +21,7 @@
     <name>jsim_corba_client</name>
 
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     
     <organization>
         <!-- Used as the 'Vendor' for JNLP generation -->
@@ -16,15 +29,33 @@
     </organization>
 
     <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<env.JAVA_HOME_7>/usr/lib/jvm/java-7-oracle/</env.JAVA_HOME_7>
+		<jdk.version>1.7</jdk.version>
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
 
     <build>
-
         <finalName>jsim_corba_client</finalName>
+		<defaultGoal>install</defaultGoal>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
 
         <plugins>
-
+			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<showDeprecation>true</showDeprecation>
+			        <showWarnings>true</showWarnings>
+			        <executable>${env.JAVA_HOME_7}/bin/javac</executable>
+			        <fork>true</fork>
+				</configuration>
+			</plugin>
+			
             <plugin>
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -34,8 +65,8 @@
                     <mainClass>br.com.gtmf.MainApp</mainClass>
 
                     <!-- only required if signing the jar file -->
-                    <keyStoreAlias>example-user</keyStoreAlias>
-                    <keyStorePassword>example-password</keyStorePassword>
+                    <keyStoreAlias>gabrieltavares</keyStoreAlias>
+                    <keyStorePassword>123456</keyStorePassword>
                     <allPermissions>true</allPermissions>
 
                 </configuration>
@@ -85,6 +116,24 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
+
+        <!-- JavaFX  -->
+
+	    <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>javafx</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
+		</dependency>
+
+		<!-- Biblioteca para JSON -->
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
 
     </dependencies>
 
